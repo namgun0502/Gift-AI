@@ -104,7 +104,7 @@ ${recipientName ? `7. 받는 사람 이름/호칭: ${recipientName}` : ''}
 `;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.6-flash",
       contents: prompt,
       config: {
         systemInstruction:
