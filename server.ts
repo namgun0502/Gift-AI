@@ -148,10 +148,17 @@ ${recipientName ? `7. 받는 사람 이름/호칭: ${recipientName}` : ''}
       throw new Error("Gemini 응답 생성이 올바르지 않습니다.");
     }
 
-    const data = JSON.parse(response.text);
+    let cleanedText = response.text.trim();
+    if (cleanedText.startsWith("```")) {
+      cleanedText = cleanedText.replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/i, "").trim();
+    }
+
+    const data = JSON.parse(cleanedText);
+    res.setHeader("Content-Type", "application/json");
     return res.json(data);
   } catch (error: any) {
     console.error("API error in /api/recommend:", error);
+    res.setHeader("Content-Type", "application/json");
     return res.status(500).json({
       error: error.message || "선물 추천 생성 중 오류가 발생했습니다.",
     });

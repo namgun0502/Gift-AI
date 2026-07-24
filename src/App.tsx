@@ -76,18 +76,27 @@ export default function App() {
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "선물 추천을 불러오지 못했습니다.");
+      const contentType = res.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "선물 추천을 불러오지 못했습니다.");
+        }
+        setCurrentRequest(formData);
+        setCurrentResponse(data);
+        setActiveTab("gifts");
+        setTimeout(() => {
+          resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      } else {
+        const rawText = await res.text();
+        console.error("Non-JSON API response:", rawText);
+        if (!res.ok) {
+          throw new Error("서버 응답 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        } else {
+          throw new Error("응답 형식이 올바르지 않습니다.");
+        }
       }
-
-      setCurrentRequest(formData);
-      setCurrentResponse(data);
-      setActiveTab("gifts");
-      setTimeout(() => {
-        resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
     } catch (err: any) {
       console.error("Error generating recommendations:", err);
       setErrorMsg(
