@@ -77,8 +77,21 @@ export default function App() {
       });
 
       const contentType = res.headers.get("content-type");
+      let data: any = null;
+      let rawText = "";
+
       if (contentType && contentType.includes("application/json")) {
-        const data = await res.json();
+        data = await res.json();
+      } else {
+        rawText = await res.text();
+        try {
+          data = JSON.parse(rawText);
+        } catch (e) {
+          // not JSON
+        }
+      }
+
+      if (data) {
         if (!res.ok) {
           throw new Error(data.error || "선물 추천을 불러오지 못했습니다.");
         }
@@ -89,10 +102,11 @@ export default function App() {
           resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 100);
       } else {
-        const rawText = await res.text();
         console.error("Non-JSON API response:", rawText);
-        if (!res.ok) {
-          throw new Error("서버 응답 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+        if (rawText.includes("GEMINI_API_KEY") || rawText.includes("API key")) {
+          throw new Error("Vercel 환경 변수(Environment Variables)에 GEMINI_API_KEY를 설정한 후 Redeploy 해주세요.");
+        } else if (!res.ok) {
+          throw new Error(`Vercel 서버 응답 오류가 발생했습니다 (${res.status}). Vercel 프로젝트 환경 변수(GEMINI_API_KEY) 설정을 확인해 주세요.`);
         } else {
           throw new Error("응답 형식이 올바르지 않습니다.");
         }
