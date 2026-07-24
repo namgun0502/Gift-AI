@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', 'Noto Serif KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: #F9F7F2;
+    color: #1A1A1A;
+  }
+
+  .font-editorial-serif {
+    font-family: 'Playfair Display', 'Noto Serif KR', Georgia, serif;
+  }
+
+  .font-gowun-batang {
+    font-family: 'Gowun Batang', 'Noto Serif KR', serif;
+  }
+
+  .font-gowun-dodum {
+    font-family: 'Gowun Dodum', 'Noto Sans KR', sans-serif;
+  }
+
+  .font-nanum-pen {
+    font-family: 'Nanum Pen Script', cursive;
+  }
+
+  .font-noto-serif {
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  .font-[#1A1A1A] {
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+}

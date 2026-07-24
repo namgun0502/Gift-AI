@@ -1,0 +1,6 @@
+{
+  "name": "선물 AI - 맞춤 선물 추천 & 모바일 카드 편지 생성기",
+  "description": "받는 사람의 관계, 나이, 성별, 취향, 기념일에 딱 맞는 3가지 기발한 선물 추천과 감성/위트/격식 모바일 카드 편지를 생성합니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
